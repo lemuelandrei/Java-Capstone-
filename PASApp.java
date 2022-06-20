@@ -154,26 +154,6 @@ public class PASApp {
 							  System.out.print("Enter driver's license no: ");
 							  driversLicenseNo = sc.next();
 							  
-//							  boolean isLicenseValid;
-//							  do {
-//								  isLicenseValid = false;
-//								    try {
-//										  System.out.print("Enter date on which driver’s license was first issued (yyyy-mm-dd): ");
-//										  String licenseDateIssued = sc.next();
-//										  System.out.println();
-//										  licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
-//										  licenseYear = licenseDateFirstIssued.getYear();
-//								    } catch (Exception e) {
-//								        System.out.println("Please enter date according to required date format."); 
-//								        isLicenseValid = true;  // This is what will get the program to loop back
-//								        sc.nextLine();
-//								    }
-//								} while (isLicenseValid);
-							  
-//							  System.out.print("Enter date on which driver’s license was first issued (yyyy-mm-dd): ");
-//							  String licenseDateIssued = sc.nextLine();
-//							  licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
-//							  licenseYear = licenseDateFirstIssued.getYear();
 						  }
 						  cus.policies.get(cus.policies.size()-1).setPolicyHolder(fName, lName, bday, policyHolderAddress, driversLicenseNo, licenseDateFirstIssued);
 						
