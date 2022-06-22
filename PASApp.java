@@ -109,7 +109,7 @@ public class PASApp {
 											bday = LocalDate.parse(birthday);
 									    } catch (Exception e) {
 									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-									        isBdayValid = true;  // This is what will get the program to loop back
+									        isBdayValid = true;  // This is what will get the prompt to loop back
 									        sc.nextLine();
 									    }
 									} while (isBdayValid);
@@ -126,7 +126,7 @@ public class PASApp {
 											licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
 									    } catch (Exception e) {
 									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-									        isLicenseValid = true;  // This is what will get the program to loop back
+									        isLicenseValid = true;  // This is what will get the prompt to loop back
 									        sc.nextLine();
 									    }
 									} while (isLicenseValid);
@@ -146,7 +146,7 @@ public class PASApp {
 											bday = LocalDate.parse(birthday);
 									    } catch (Exception e) {
 									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-									        isBdayValid = true;  // This is what will get the program to loop back
+									        isBdayValid = true;  // This is what will get the prompt to loop back
 									        sc.nextLine();
 									    }
 									} while (isBdayValid);
@@ -165,7 +165,7 @@ public class PASApp {
 											licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
 									    } catch (Exception e) {
 									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-									        isLicenseValid = true;  // This is what will get the program to loop back
+									        isLicenseValid = true;  // This is what will get the prompt to loop back
 									        sc.nextLine();
 									    }
 									} while (isLicenseValid);
@@ -179,7 +179,7 @@ public class PASApp {
 						  cus.getPolicies().get(cus.getPolicies().size()-1).setPolicyHolder(fName, lName, bday, policyHolderAddress, driversLicenseNo, licenseDateFirstIssued);
 						
 						  int numOfVehicle = 0;
-						  numOfVehicle = (int) validateNumber("How many vehicles do you have?: ");
+						  numOfVehicle = (int) validateNumber("Please enter number of vehicles: ");
 						 				  
 						  System.out.println();
 						  if(numOfVehicle == 1) {
@@ -188,7 +188,7 @@ public class PASApp {
 							  System.out.println("~ Vehicles Details ~");
 						  } else {
 							  System.out.println("********NUMEBR CANNOT BE NEGATIVE********");
-							  numOfVehicle = (int) validateNumber("How many vehicles do you have?: ");
+							  numOfVehicle = (int) validateNumber("Please enter number of vehicles: ");
 							  System.out.println();
 						  }
 						  
@@ -264,21 +264,31 @@ public class PASApp {
 					  for(int i = 0; i < cust.getPolicies().size(); i++) {
 						  if(cust.getPolicies().get(i).getPolicyNo().equals(policyNo)) {
 							  policyMatch++;
-							  System.out.println("Current Effective Date: " + cust.getPolicies().get(i).getEffectiveDate());
-							  System.out.println("Current Expiration Date: " + cust.getPolicies().get(i).getExpirationDate());
+							  System.out.println("--------------------------------------------");
+							  System.out.println("Effective Date: " + cust.getPolicies().get(i).getEffectiveDate());
+							  System.out.println("--------------------------------------------");
+							  System.out.println("Current Expiration date: " + cust.getPolicies().get(i).getExpirationDate());
+							  System.out.println("--------------------------------------------");
+							  System.out.println();
 
 							  boolean invalidInput;
 							  do {
 								    invalidInput = false;
 								    try {
-								    	System.out.print("Enter new expiration Date (yyyy-mm-dd): ");
+								    	System.out.print("Enter new expiration date (yyyy-mm-dd): ");
 										String newExpirationDate = sc.next();
 										LocalDate newExpDate = LocalDate.parse(newExpirationDate);
 										 if(newExpDate.isBefore(cust.getPolicies().get(i).getEffectiveDate())) {
-											  System.out.println("********Expiration date cannot be earlier than effective date********");
+											  System.out.println("********NEW EXPIRATION DATE CANNOT BE EARLIER THAN EFFECTIVE DATE********");
+											  invalidInput = true;
+										  } else if(newExpDate.isEqual(cust.getPolicies().get(i).getEffectiveDate())) {
+											  System.out.println("********NEW EXPIRATION DATE CANNOT BE THE SAME WITH EFFECTIVE DATE*********");
 											  invalidInput = true;
 										  } else if(newExpDate.isAfter(cust.getPolicies().get(i).getExpirationDate())) {
-											  System.out.println("********Expiration date cannot be later than current expiration date********");
+											  System.out.println("********NEW EXIPIRATION DATE CANNOT BE LATER THAN CURRENT EXPIRATION DATE********");
+											  invalidInput = true;
+										  } else if(newExpDate.isEqual(cust.getPolicies().get(i).getExpirationDate())) {
+											  System.out.println("********PLEASE ENTER NEW EXPIRATION DATE EARLIER THAN CURRENT EXPIRATION DATE********");
 											  invalidInput = true;
 										  } else {
 											  cust.getPolicies().get(i).setNewExpirationDate(newExpirationDate);
@@ -289,7 +299,7 @@ public class PASApp {
 										  } 
 								    } catch (Exception e) {
 								    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-								        invalidInput = true;  // This is what will get the program to loop back
+								        invalidInput = true;  // This is what will get the prompt to loop back
 								        sc.nextLine();
 								    }
 								} while (invalidInput);
@@ -314,19 +324,7 @@ public class PASApp {
 					  for(int i = 0; i < customer.getPolicies().size(); i++) {
 						  if(customer.getPolicies().get(i).getPolicyNo().equals(policyNum)) {
 							  polMatch++;
-							  LocalDate accidentDate = null;
-							  boolean isDateValid;
-							  do {
-								  isDateValid = false;
-								  try {
-									  System.out.print("Enter date of accident (yyyy-mm-dd): ");
-									  String dateOfAccident = sc.next();
-									  accidentDate = LocalDate.parse(dateOfAccident);
-								  } catch(Exception e) {
-									  System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-									  isDateValid = true;
-								  }
-							  } while(isDateValid);
+							  LocalDate accidentDate = validateDate("Enter date of accident (yyyy-mm-dd): ");
 							  System.out.print("Enter address where accident happened: ");
 							  String accidentAddress = sc.nextLine() + sc.nextLine();
 							  System.out.print("Enter description of accident: ");
@@ -368,12 +366,12 @@ public class PASApp {
 						  System.out.println("--------------------------------------------");
 						  System.out.println("~ Customer Account Details ~");
 						  System.out.println("--------------------------------------------");
-						  System.out.println("Account no: " + cusAcc.getAccNo());
+						  System.out.println("Account No: " + cusAcc.getAccNo());
 						  String fName = cusAcc.getFirstName();
 						  String lName = cusAcc.getLastName();
 						  String cusAddress = cusAcc.getAddress();
-						  System.out.println("First name: " + fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase());
-						  System.out.println("Last name: " + lName.substring(0, 1).toUpperCase() + lName.substring(1).toLowerCase());
+						  System.out.println("First Name: " + fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase());
+						  System.out.println("Last Name: " + lName.substring(0, 1).toUpperCase() + lName.substring(1).toLowerCase());
 						  System.out.println("Address: " + cusAddress.toUpperCase());
 						  System.out.println();
 						  System.out.println("--------------------------------------------");
@@ -431,7 +429,7 @@ public class PASApp {
 							  System.out.println("Last Name: " + lName.substring(0, 1).toUpperCase() + lName.substring(1).toLowerCase());
 							  System.out.println("Birthday: " + bday);
 							  System.out.println("Address: " + polHolderAddress.toUpperCase());
-							  System.out.println("Driver’s license number: " + licenseNo);
+							  System.out.println("Driver’s License Number: " + licenseNo);
 							  System.out.println("Date on which driver’s license was first issued: " + driversLicenseFirstIssued);
 							  System.out.println();
 							  System.out.println("--------------------------------------------");
@@ -487,15 +485,15 @@ public class PASApp {
 							  String claimNum = cusAcc.getPolicies().get(i).getClaim().getClaimNo();
 							  System.out.println("Claim Number: " + claimNum);
 							  LocalDate dateOfAccident = cusAcc.getPolicies().get(i).getClaim().getAccidentDate();
-							  System.out.println("Date of accident: " + dateOfAccident);
+							  System.out.println("Date of Accident: " + dateOfAccident);
 							  String addressOfAccident = cusAcc.getPolicies().get(i).getClaim().getAccidentAddress();
-							  System.out.println("Address where accident happened: " + addressOfAccident);
+							  System.out.println("Address Where Accident Happened: " + addressOfAccident);
 							  String descriptionOfAccident = cusAcc.getPolicies().get(i).getClaim().getAccidentDescription();
-							  System.out.println("Description of accident: " + descriptionOfAccident);
+							  System.out.println("Description of Accident: " + descriptionOfAccident);
 							  String descriptionOfDamage = cusAcc.getPolicies().get(i).getClaim().getDamageDescription();
-							  System.out.println("Description of damage to vehicle: " + descriptionOfDamage);
+							  System.out.println("Description of Damage to Vehicle: " + descriptionOfDamage);
 							  double estCostOfRepairs = cusAcc.getPolicies().get(i).getClaim().getCostOfRepairs();
-							  System.out.println("Estimated cost of repairs: " + String.format("$%.2f", estCostOfRepairs));
+							  System.out.println("Estimated Cost of Repairs: " + String.format("$%.2f", estCostOfRepairs));
 							  System.out.println();
 						  }
 					  }
@@ -540,7 +538,7 @@ public class PASApp {
 						  validateNumber(prompt);
 					  }
 				  }
-				  else if(prompt.contains("many")) {
+				  else if(prompt.contains("number")) {
 					  int num = sc.nextInt();
 					  return num;
 				  } else if(prompt.contains("price") || prompt.contains("cost")) {
@@ -550,7 +548,7 @@ public class PASApp {
 				  
 			  } catch(Exception e) {
 				  if(prompt.contains("year")) {
-					  System.out.println("********INVALID INPUT. PLEASE ENTER YEAR IN NUMBER********");
+					  System.out.println("********INVALID INPUT. PLEASE ENTER YEAR IN NUMBERS********");
 					  sc.next();
 					  isNumber = true;
 				  } else {
@@ -564,28 +562,24 @@ public class PASApp {
 		return 0;
 	}
 	
-//	public static LocalDate validateDate(String userInput) {
-//		Scanner sc = new Scanner(System.in);
-//		boolean isDateFormatValid;
-//		  do {
-//			  isDateFormatValid = false;
-//			    try {
-//			    	 System.out.print("Enter effective date (yyyy-mm-dd): ");
-//					  String effectiveDate = sc.next();
-//					  cus.addPolicy(effectiveDate);
-//					  LocalDate policyExpirationDate = cus.policies.get(cus.policies.size()-1).getExpirationDate();
-//					  System.out.println("Your policy coverage will expire on " + policyExpirationDate);
-//					  System.out.println();
-//					  sc.nextLine();
-//			    } catch (Exception e) {
-//			        System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-//			        isDateFormatValid = true;  // This is what will get the program to loop back
-//			        sc.nextLine();
-//			    }
-//			} while (isDateFormatValid);
-//		
-//		return LocalDate.now();
-//	}
+	public static LocalDate validateDate(String prompt) {
+		Scanner sc = new Scanner(System.in);
+		boolean isDateFormatValid;
+		  do {
+			  isDateFormatValid = false;
+			    try {
+			    	 System.out.print(prompt);
+					  String dateEntered = sc.next();
+					  LocalDate date = LocalDate.parse(dateEntered);
+					  return date;
+			    } catch (Exception e) {
+			        System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********");
+			        isDateFormatValid = true;  // This is what will get the prompt to loop back
+			    }
+			} while (isDateFormatValid);
+		sc.close();
+		return null;
+	}
 	
 	
 	
