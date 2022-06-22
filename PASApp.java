@@ -17,9 +17,9 @@ public class PASApp {
 		int choice = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
-			System.out.println("--------------------------------------------");
+			System.out.println("============================================");
 			System.out.println("                 PAS SYSTEM");
-			System.out.println("--------------------------------------------");
+			System.out.println("============================================");
 			System.out.println("1 - Create a new Customer Account");
 			System.out.println("2 - Get a policy quote and buy the policy");
 			System.out.println("3 - Cancel a specific policy");
@@ -28,7 +28,7 @@ public class PASApp {
 			System.out.println("6 - Search for and display a specific policy");
 			System.out.println("7 - Search for and display a specific claim");
 			System.out.println("8 - Exit the PAS System");
-			System.out.println("--------------------------------------------");
+			System.out.println("============================================");
 			System.out.print("Enter your choice <1-8>: ");
 			try {
 				choice = sc.nextInt();
@@ -50,14 +50,16 @@ public class PASApp {
 				  String currAccNum = customerList.get(customerList.size()-1).getAccNo();
 				  System.out.println();
 				  System.out.println("********ACCOUNT CREATED SUCCESSFULLY********");
+				  System.out.println();
 				  System.out.println("New account created with account no: " + currAccNum);
 				  System.out.println();
 				  break;
 			    
 			  case 2:
 				  System.out.println();
-				  System.out.print("Enter account number: ");
+				  System.out.print("Enter your 4-digit account number: ");
 				  String customerAccNo = sc.next();
+				  System.out.println();
 				  int match = 0;
 				  for(CustomerAccount cus : customerList) {
 					  if(cus.getAccNo().equals(customerAccNo)) {
@@ -68,184 +70,202 @@ public class PASApp {
 						  LocalDate bday = null;
 						  String driversLicenseNo = null;
 						  LocalDate licenseDateFirstIssued = null;
-						  int licenseYear = 0;
 						  
 						  boolean isEffDateValid;
 						  do {
 							  isEffDateValid = false;
 							    try {
-							    	 System.out.print("Enter effective date (yyyy-mm-dd): ");
+							    	  System.out.print("Enter effective date (yyyy-mm-dd): ");
 									  String effectiveDate = sc.next();
 									  cus.addPolicy(effectiveDate);
-									  LocalDate policyExpirationDate = cus.policies.get(cus.policies.size()-1).getExpirationDate();
+									  LocalDate policyExpirationDate = cus.getPolicies().get(cus.getPolicies().size()-1).getExpirationDate();
 									  System.out.println("Your policy coverage will expire on " + policyExpirationDate);
 									  System.out.println();
 									  sc.nextLine();
 							    } catch (Exception e) {
-							        System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-							        isEffDateValid = true;  // This is what will get the program to loop back
+							        System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********");
+							        isEffDateValid = true;  // This is what will get the prompt to loop back
 							        sc.nextLine();
 							    }
 							} while (isEffDateValid);
 						  
-						  System.out.print("Are you also the policy holder? <y/n>: ");
-						  String answer = sc.next();
-						  System.out.println();
-						  if(answer.equalsIgnoreCase("y")) {
-							  fName = cus.getFirstName();
-							  lName = cus.getLastName();
-							  policyHolderAddress = cus.getAddress();
-							  
-							  boolean isBdayValid;
-							  do {
-								  isBdayValid = false;
-								    try {
-								    	System.out.print("Enter date of birth (yyyy-mm-dd): ");
-										String birthday = sc.next();
-										bday = LocalDate.parse(birthday);
-								    } catch (Exception e) {
-								    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-								        isBdayValid = true;  // This is what will get the program to loop back
-								        sc.nextLine();
-								    }
-								} while (isBdayValid);
-							  
-							  System.out.print("Enter driver's license no: ");
-							  driversLicenseNo = sc.next();
-							  
-							  boolean isLicenseValid;
-							  do {
-								  isLicenseValid = false;
-								    try {
-										System.out.print("Enter date on which driver’s license was first issued (yyyy-mm-dd): ");
-										String licenseDateIssued = sc.next();
-										System.out.println();
-										licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
-										licenseYear = licenseDateFirstIssued.getYear();
-								    } catch (Exception e) {
-								    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-								        isLicenseValid = true;  // This is what will get the program to loop back
-								        sc.nextLine();
-								    }
-								} while (isLicenseValid);
-						  } else if (answer.equalsIgnoreCase("n")) {
-							  System.out.println("~ Policy Holder Details ~");
-							  System.out.print("Enter first name: ");
-							  fName = sc.nextLine() + sc.nextLine();
-							  System.out.print("Enter last name: ");
-							  lName = sc.nextLine();
-							  
-							  boolean isBdayValid;
-							  do {
-								  isBdayValid = false;
-								    try {
-								    	System.out.print("Enter date of birth (yyyy-mm-dd): ");
-										String birthday = sc.next();
-										bday = LocalDate.parse(birthday);
-								    } catch (Exception e) {
-								    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
-								        isBdayValid = true;  // This is what will get the program to loop back
-								        sc.nextLine();
-								    }
-								} while (isBdayValid);
-							  
-							  System.out.print("Enter address: ");
-							  policyHolderAddress = sc.nextLine() + sc.nextLine();
-							  System.out.print("Enter driver's license no: ");
-							  driversLicenseNo = sc.next();
-							  
-						  }
-						  cus.policies.get(cus.policies.size()-1).setPolicyHolder(fName, lName, bday, policyHolderAddress, driversLicenseNo, licenseDateFirstIssued);
+						  boolean isAnsValid;
+						  do {
+							  isAnsValid = false;
+							  System.out.print("Are you also the policy holder? <y/n>: ");
+							  String answer = sc.next();
+							  System.out.println();
+							  if(answer.equalsIgnoreCase("y")) {
+								  fName = cus.getFirstName();
+								  lName = cus.getLastName();
+								  policyHolderAddress = cus.getAddress();
+								  
+								  boolean isBdayValid;
+								  do {
+									  isBdayValid = false;
+									    try {
+									    	System.out.print("Enter date of birth (yyyy-mm-dd): ");
+											String birthday = sc.next();
+											bday = LocalDate.parse(birthday);
+									    } catch (Exception e) {
+									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
+									        isBdayValid = true;  // This is what will get the program to loop back
+									        sc.nextLine();
+									    }
+									} while (isBdayValid);
+								  
+								  System.out.print("Enter driver's license no: ");
+								  driversLicenseNo = sc.next();
+								  
+								  boolean isLicenseValid;
+								  do {
+									  isLicenseValid = false;
+									    try {
+											System.out.print("Enter date on which driver’s license was first issued (yyyy-mm-dd): ");
+											String licenseDateIssued = sc.next();
+											licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
+									    } catch (Exception e) {
+									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
+									        isLicenseValid = true;  // This is what will get the program to loop back
+									        sc.nextLine();
+									    }
+									} while (isLicenseValid);
+							  } else if (answer.equalsIgnoreCase("n")) {
+								  System.out.println("~ Policy Holder Details ~");
+								  System.out.print("Enter first name: ");
+								  fName = sc.nextLine() + sc.nextLine();
+								  System.out.print("Enter last name: ");
+								  lName = sc.nextLine();
+								  
+								  boolean isBdayValid;
+								  do {
+									  isBdayValid = false;
+									    try {
+									    	System.out.print("Enter date of birth (yyyy-mm-dd): ");
+											String birthday = sc.next();
+											bday = LocalDate.parse(birthday);
+									    } catch (Exception e) {
+									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
+									        isBdayValid = true;  // This is what will get the program to loop back
+									        sc.nextLine();
+									    }
+									} while (isBdayValid);
+								  
+								  System.out.print("Enter address: ");
+								  policyHolderAddress = sc.nextLine() + sc.nextLine();
+								  System.out.print("Enter driver's license no: ");
+								  driversLicenseNo = sc.next();
+								  
+								  boolean isLicenseValid;
+								  do {
+									  isLicenseValid = false;
+									    try {
+											System.out.print("Enter date on which driver’s license was first issued (yyyy-mm-dd): ");
+											String licenseDateIssued = sc.next();
+											licenseDateFirstIssued = LocalDate.parse(licenseDateIssued);
+									    } catch (Exception e) {
+									    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
+									        isLicenseValid = true;  // This is what will get the program to loop back
+									        sc.nextLine();
+									    }
+									} while (isLicenseValid);
+								  
+							  } else {
+								  System.out.println("********PLEASE ENTER Y OR N ONLY********");
+								  isAnsValid = true;
+							  }
+						  } while(isAnsValid);
+						  
+						  cus.getPolicies().get(cus.getPolicies().size()-1).setPolicyHolder(fName, lName, bday, policyHolderAddress, driversLicenseNo, licenseDateFirstIssued);
 						
-						  
 						  int numOfVehicle = 0;
-						  numOfVehicle = validateNumber("Please enter number of vehicle: ");
-//						  boolean isNumber;
-//						  do {
-//							  isNumber = false;
-//							  try {
-//								  System.out.print("Please enter number of vehicle: ");
-//								  numOfVehicle = sc.nextInt();
-//							  } catch(Exception e) {
-//								  System.out.println("********INVALID INPUT. PLEASE ENTER A NUMBER********");
-//								  sc.next();
-//								  isNumber = true;
-//							  }
-//						  } while(isNumber);
-						 
-						  
+						  numOfVehicle = (int) validateNumber("How many vehicles do you have?: ");
+						 				  
 						  System.out.println();
-						  if(numOfVehicle <= 1) {
+						  if(numOfVehicle == 1) {
 							  System.out.println("~ Vehicle Details ~");
-						  } else {
+						  } else if(numOfVehicle > 1) {
 							  System.out.println("~ Vehicles Details ~");
+						  } else {
+							  System.out.println("********NUMEBR CANNOT BE NEGATIVE********");
+							  numOfVehicle = (int) validateNumber("How many vehicles do you have?: ");
+							  System.out.println();
 						  }
 						  
 						  for(int i = 0; i < numOfVehicle; i++) {
 							  System.out.println("Vehicle " + (i + 1));
 							  System.out.print("Enter make: ");
-							  String make = sc.nextLine() + sc.nextLine();
+							  String make = sc.next();
 							  System.out.print("Enter model: ");
-							  String model = sc.nextLine();
-							  int year = validateNumber("Enter year: ");
+							  String model = sc.nextLine() + sc.nextLine();
+							  int year = (int) validateNumber("Enter year: ");
 							  System.out.print("Enter type: ");
 							  String type = sc.nextLine();
 							  System.out.print("Enter fuel type: ");
 							  String fuelType = sc.nextLine();
-							  System.out.print("Enter purchase price: ");
-							  double purchasePrice = sc.nextDouble();
-							  sc.nextLine();
+							  
+							  double purchasePrice = validateNumber("Enter purchase price: ");
+
 							  System.out.print("Enter color: ");
 							  String color = sc.next();
 							
-							  RatingEngine ratingEngine = new RatingEngine(year, purchasePrice, licenseYear);
+							  RatingEngine ratingEngine = new RatingEngine(year, purchasePrice, licenseDateFirstIssued);
 							  System.out.print("Premium charged for this specific vehicle: " + String.format("$%.2f", ratingEngine.getCalculatedPremium()));
 							  System.out.println();
-							  cus.policies.get(cus.policies.size()-1).addVehicles(make, model, year, type, fuelType, purchasePrice, color, ratingEngine.getCalculatedPremium());
+							  cus.getPolicies().get(cus.getPolicies().size()-1).addVehicles(make, model, year, type, fuelType, purchasePrice, color, ratingEngine.getCalculatedPremium());
 							  
 							  Policy.policyPremium += ratingEngine.getCalculatedPremium();
 							  System.out.println();
 						  }
-						  System.out.println("===============================");
+						  System.out.println("============================================");
 						  System.out.println("Policy premium amount: " + String.format("$%.2f", Policy.policyPremium));
-						  System.out.println("===============================");
+						  System.out.println("============================================");
 						  Policy.policyPremium = 0;
-						  String policyNum = cus.policies.get(cus.policies.size()-1).getPolicyNo();
+						  String policyNum = cus.getPolicies().get(cus.getPolicies().size()-1).getPolicyNo();
 						  System.out.println();
-						  System.out.print("Buy Policy? <y/n>: ");
-						  String ans = sc.next();
-						  System.out.println();
-						  if(ans.equalsIgnoreCase("y")) {
-							  System.out.println("********POLICY CREATED SUCCESSFULLY********");
-							  System.out.println("New policy created with policy no: " + policyNum);
-						  } else if(ans.equalsIgnoreCase("n")) {
-							  cus.policies.remove(cus.policies.size()-1);
-							  System.out.println("********THANK YOU FOR INQUIRING********");
-						  } else {
-							  System.out.println("Please enter Y or N only");
-						  }
+						  
+						  boolean isAnswerValid;
+						  do {
+							  isAnswerValid = false;
+							  System.out.print("Buy Policy? <y/n>: ");
+							  String ans = sc.next();
+							  System.out.println();
+							  if(ans.equalsIgnoreCase("y")) {
+								  System.out.println("********POLICY BOUGHT SUCCESSFULLY********");
+								  System.out.println();
+								  System.out.println("New policy bought with policy no: " + policyNum);
+							  } else if(ans.equalsIgnoreCase("n")) {
+								  cus.getPolicies().remove(cus.getPolicies().size()-1);
+								  System.out.println("********THANK YOU FOR INQUIRING********");
+							  } else {
+								  System.out.println("********PLEASE ENTER Y OR N ONLY********");
+								  isAnswerValid = true;
+							  }
+							  
+						  } while (isAnswerValid);
+						 
 						  System.out.println();
 					  }
 				  }
 					if(match == 0) {
 						System.out.println("********ACCOUNT NOT FOUND. PLEASE TRY AGAIN********");
-						match = 0;
 						System.out.println();
+						match = 0;
 					}
 				  break;
 				
 			  case 3:
 				  System.out.println();
-				  System.out.print("Enter policy no: ");
+				  System.out.print("Enter your 6-digit policy no: ");
 				  String policyNo = sc.next();
+				  System.out.println();
 				  int policyMatch = 0;
 				  for(CustomerAccount cust : customerList) {
-					  for(int i = 0; i < cust.policies.size(); i++) {
-						  if(cust.policies.get(i).getPolicyNo().equals(policyNo)) {
+					  for(int i = 0; i < cust.getPolicies().size(); i++) {
+						  if(cust.getPolicies().get(i).getPolicyNo().equals(policyNo)) {
 							  policyMatch++;
-							  System.out.println("********POLICY FOUND********");
-							  System.out.println("Current Effective Date: " + cust.policies.get(i).getEffectiveDate());
-							  System.out.println("Current Expiration Date: " + cust.policies.get(i).getExpirationDate());
+							  System.out.println("Current Effective Date: " + cust.getPolicies().get(i).getEffectiveDate());
+							  System.out.println("Current Expiration Date: " + cust.getPolicies().get(i).getExpirationDate());
 
 							  boolean invalidInput;
 							  do {
@@ -254,17 +274,21 @@ public class PASApp {
 								    	System.out.print("Enter new expiration Date (yyyy-mm-dd): ");
 										String newExpirationDate = sc.next();
 										LocalDate newExpDate = LocalDate.parse(newExpirationDate);
-										 if(newExpDate.isBefore(cust.policies.get(i).getEffectiveDate())) {
-											  System.out.println("exp date cannot be earlier than effective date");
-										  } else if(newExpDate.isAfter(cust.policies.get(i).getExpirationDate())) {
-											  System.out.println("exp date cannot be later than current expiration date");
+										 if(newExpDate.isBefore(cust.getPolicies().get(i).getEffectiveDate())) {
+											  System.out.println("********Expiration date cannot be earlier than effective date********");
+											  invalidInput = true;
+										  } else if(newExpDate.isAfter(cust.getPolicies().get(i).getExpirationDate())) {
+											  System.out.println("********Expiration date cannot be later than current expiration date********");
+											  invalidInput = true;
 										  } else {
-											  cust.policies.get(i).setNewExpirationDate(newExpirationDate);
-											  System.out.println("********POLICY CANCELLED********");
-											  System.out.println("The new expiration date is: " + cust.policies.get(i).getExpirationDate());
-										  }
+											  cust.getPolicies().get(i).setNewExpirationDate(newExpirationDate);
+											  System.out.println();
+											  System.out.println("********POLICY CANCELLED SUCCESSFULLY********");
+											  System.out.println();
+											  System.out.println("The new expiration date is: " + cust.getPolicies().get(i).getExpirationDate());
+										  } 
 								    } catch (Exception e) {
-								        System.out.println("Please enter date according to required date format."); 
+								    	System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
 								        invalidInput = true;  // This is what will get the program to loop back
 								        sc.nextLine();
 								    }
@@ -275,41 +299,56 @@ public class PASApp {
 				  }
 				  if(policyMatch == 0) {
 					  System.out.println("********POLICY NOT FOUND. PLEASE TRY AGAIN********");
-					  policyMatch = 0;
 					  System.out.println();
+					  policyMatch = 0;
 				  }
 				break;
 				
 			  case 4:
 				  System.out.println();
-				  System.out.print("Enter policy number: ");
+				  System.out.print("Enter your 6-digit policy number: ");
 				  String policyNum = sc.next();
+				  System.out.println();
 				  int polMatch = 0;
 				  for(CustomerAccount customer : customerList) {
-					  for(int i = 0; i < customer.policies.size(); i++) {
-						  if(customer.policies.get(i).getPolicyNo().equals(policyNum)) {
+					  for(int i = 0; i < customer.getPolicies().size(); i++) {
+						  if(customer.getPolicies().get(i).getPolicyNo().equals(policyNum)) {
 							  polMatch++;
-							  System.out.println("Policy Found!");
-							  System.out.print("Enter date of accident (yyyy-mm-dd): ");
-							  String accidentDate = sc.next() + sc.nextLine();
+							  LocalDate accidentDate = null;
+							  boolean isDateValid;
+							  do {
+								  isDateValid = false;
+								  try {
+									  System.out.print("Enter date of accident (yyyy-mm-dd): ");
+									  String dateOfAccident = sc.next();
+									  accidentDate = LocalDate.parse(dateOfAccident);
+								  } catch(Exception e) {
+									  System.out.println("********PLEASE ENTER DATE ACCORDING TO REQURED DATE FORMAT********"); 
+									  isDateValid = true;
+								  }
+							  } while(isDateValid);
 							  System.out.print("Enter address where accident happened: ");
-							  String accidentAddress = sc.nextLine();
+							  String accidentAddress = sc.nextLine() + sc.nextLine();
 							  System.out.print("Enter description of accident: ");
 							  String accidentDescription = sc.nextLine();
 							  System.out.print("Enter description of damage to vehicle: ");
 							  String damageDescription = sc.nextLine();
-							  System.out.print("Enter estimated cost of repairs: ");
-							  double costOfRepairs = sc.nextDouble();
-							  customer.policies.get(i).setClaim(accidentDate, accidentAddress, accidentDescription, damageDescription, costOfRepairs);
-							  String currClaimNo = customer.policies.get(customer.policies.size()-1).claim.getClaimNo();
-							  System.out.println("New claim created with Claim No: " + currClaimNo);
+
+							  double costOfRepairs = validateNumber("Enter estimated cost of repairs: ");
+							  
+							  customer.getPolicies().get(i).setClaim(accidentDate, accidentAddress, accidentDescription, damageDescription, costOfRepairs);
+							  String currentClaimNo = customer.getPolicies().get(customer.getPolicies().size()-1).getClaim().getClaimNo();
+							  System.out.println();
+							  System.out.println("********CLAIM CREATED SUCCESSFULLY********");
+							  System.out.println();
+							  System.out.println("New claim created with Claim No: " + currentClaimNo);
 						  }
 					  }
 				  }
 				  if(polMatch == 0) {
-					  System.out.println("********POLICY NOT FOUND. PLEASE TRY AGAIN.********");
-					  polMatch = 0;
+					  System.out.println("********POLICY NOT FOUND. PLEASE TRY AGAIN********");
 					  System.out.println();
+					  polMatch = 0;
 				  }
 				  System.out.println();
 				break;
@@ -326,16 +365,25 @@ public class PASApp {
 				  for(CustomerAccount cusAcc : customerList) {
 					  if(cusAcc.getFirstName().equals(cusFName) && cusAcc.getLastName().equals(cusLName)) {
 						  matchName++;
+						  System.out.println("--------------------------------------------");
 						  System.out.println("~ Customer Account Details ~");
+						  System.out.println("--------------------------------------------");
 						  System.out.println("Account no: " + cusAcc.getAccNo());
-						  System.out.println("First name: " + cusAcc.getFirstName());
-						  System.out.println("Last name: " + cusAcc.getLastName());
-						  System.out.println("Address: " + cusAcc.getAddress());
+						  String fName = cusAcc.getFirstName();
+						  String lName = cusAcc.getLastName();
+						  String cusAddress = cusAcc.getAddress();
+						  System.out.println("First name: " + fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase());
+						  System.out.println("Last name: " + lName.substring(0, 1).toUpperCase() + lName.substring(1).toLowerCase());
+						  System.out.println("Address: " + cusAddress.toUpperCase());
 						  System.out.println();
+						  System.out.println("--------------------------------------------");
 						  System.out.println("~ List of Policies ~");
-						  if(cusAcc.policies.size() != 0) {
+						  System.out.println("--------------------------------------------");
+						  if(cusAcc.getPolicies().size() != 0) {
 							  for(Policy pol : cusAcc.getPolicies()) {
-								  System.out.println(pol.getPolicyNo() + " -> " + pol.getPolicyHolder().getFirstName() + " " + pol.getPolicyHolder().getLastName());
+								  String cusFirstName = pol.getPolicyHolder().getFirstName();
+								  String cusLastName = pol.getPolicyHolder().getLastName();
+								  System.out.println(pol.getPolicyNo() + " (" + cusFirstName.substring(0, 1).toUpperCase() + cusFirstName.substring(1).toLowerCase() + " " + cusLastName.substring(0, 1).toUpperCase() + cusLastName.substring(1) + ")");
 							  }
 						  } else {
 							  System.out.println("--");
@@ -343,9 +391,8 @@ public class PASApp {
 					  }
 				  }
 				  if(matchName == 0) {
-					  System.out.println("********ACCOUNT NOT FOUND. PLEASE TRY AGAIN.********");
+					  System.out.println("********ACCOUNT NOT FOUND. PLEASE TRY AGAIN********");
 					  matchName = 0;
-					  
 				  }
 				  System.out.println();
 				  break;
@@ -357,35 +404,43 @@ public class PASApp {
 				  System.out.println();
 				  int polNumMatch = 0;
 				  for(CustomerAccount customerAcc : customerList) {
-					  for(int i = 0; i < customerAcc.policies.size(); i++) {
-						  if(customerAcc.policies.get(i).getPolicyNo().equals(policyNumber)) {
+					  for(int i = 0; i < customerAcc.getPolicies().size(); i++) {
+						  if(customerAcc.getPolicies().get(i).getPolicyNo().equals(policyNumber)) {
 							  polNumMatch++;
-							  System.out.println();
+							  System.out.println("--------------------------------------------");
 							  System.out.println("~ Policy Details ~");
-							  String polNum = customerAcc.policies.get(i).getPolicyNo();
+							  System.out.println("--------------------------------------------");
+							  String polNum = customerAcc.getPolicies().get(i).getPolicyNo();
 							  System.out.println("Policy No: " + polNum);
-							  LocalDate effDate = customerAcc.policies.get(i).getEffectiveDate();
+							  LocalDate effDate = customerAcc.getPolicies().get(i).getEffectiveDate();
 							  System.out.println("Effective Date: " + effDate);
-							  LocalDate expirationDate = customerAcc.policies.get(i).getExpirationDate();
+							  LocalDate expirationDate = customerAcc.getPolicies().get(i).getExpirationDate();
 							  System.out.println("Expiration Date: " + expirationDate);
 							  System.out.println();
+							  System.out.println("--------------------------------------------");
 							  System.out.println("~ Policy Holder Details ~");
-							  PolicyHolder policyHolder = customerAcc.policies.get(i).getPolicyHolder();
+							  System.out.println("--------------------------------------------");
+							  PolicyHolder policyHolder = customerAcc.getPolicies().get(i).getPolicyHolder();
 							  String fName = policyHolder.getFirstName();
 							  String lName = policyHolder.getLastName();
 							  LocalDate bday = policyHolder.getBirthDate();
 							  String polHolderAddress = policyHolder.getAddress();
 							  String licenseNo = policyHolder.getDriversLicense();
 							  LocalDate driversLicenseFirstIssued = policyHolder.getDriversLicenseFirstIssued();
-							  System.out.println("First Name: " + fName);
-							  System.out.println("Last Name: " + lName);
+							  System.out.println("First Name: " + fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase());
+							  System.out.println("Last Name: " + lName.substring(0, 1).toUpperCase() + lName.substring(1).toLowerCase());
 							  System.out.println("Birthday: " + bday);
-							  System.out.println("Address: " + polHolderAddress);
+							  System.out.println("Address: " + polHolderAddress.toUpperCase());
 							  System.out.println("Driver’s license number: " + licenseNo);
 							  System.out.println("Date on which driver’s license was first issued: " + driversLicenseFirstIssued);
 							  System.out.println();
+							  System.out.println("--------------------------------------------");
 							  System.out.println("~ Vehicle Details ~");
-							  for(Vehicle veh : customerAcc.policies.get(i).getVehicles()) {
+							  System.out.println("--------------------------------------------");
+							  int count = 0;
+							  for(Vehicle veh : customerAcc.getPolicies().get(i).getVehicles()) {
+								  count++;
+								  System.out.println("Vehicle " + count);
 								  System.out.println("Make: " + veh.getMake());
 								  System.out.println("Model: " + veh.getModel());
 								  System.out.println("Year: " + veh.getYear());
@@ -397,9 +452,11 @@ public class PASApp {
 								  Policy.policyPremium += veh.getPremiumCharge();
 								  System.out.println();
 							  }
-							  System.out.println("===============================");
+							  System.out.println("============================================");
 							  System.out.println("Policy premium amount: " + String.format("$%.2f", Policy.policyPremium));
-							  System.out.println("===============================");
+							  System.out.println("============================================");
+							  System.out.println();
+							  System.out.println("--------------------------------------------");
 							  Policy.policyPremium = 0; //reset
 							  System.out.println();
 						  }
@@ -407,8 +464,8 @@ public class PASApp {
 				  }
 				  if(polNumMatch == 0) {
 					  System.out.println("********POLICY NOT FOUND. PLEASE TRY AGAIN.********");
-					  polNumMatch = 0;
 					  System.out.println();
+					  polNumMatch = 0;
 				  }
 				  break;
 				
@@ -419,33 +476,34 @@ public class PASApp {
 				  System.out.println();
 				  int claimMatch = 0;
 				  for(CustomerAccount cusAcc : customerList) {
-					  for(int i = 0; i < cusAcc.policies.size(); i++) {
-						  if(cusAcc.policies.get(i).getClaim() == null) {
-							  System.out.println("CLAIM NOT FOUND!!!");
+					  for(int i = 0; i < cusAcc.getPolicies().size(); i++) {
+						  if(cusAcc.getPolicies().get(i).getClaim() == null) {
 						  }
-						  else if(cusAcc.policies.get(i).getClaim().getClaimNo().equals(claimNo)) {
+						  else if(cusAcc.getPolicies().get(i).getClaim().getClaimNo().equals(claimNo)) {
 							  claimMatch++;
+							  System.out.println("--------------------------------------------");
 							  System.out.println("~ Claim Details ~");
-							  String claimNum = cusAcc.policies.get(i).getClaim().getClaimNo();
+							  System.out.println("--------------------------------------------");
+							  String claimNum = cusAcc.getPolicies().get(i).getClaim().getClaimNo();
 							  System.out.println("Claim Number: " + claimNum);
-							  LocalDate dateOfAccident = cusAcc.policies.get(i).getClaim().getAccidentDate();
+							  LocalDate dateOfAccident = cusAcc.getPolicies().get(i).getClaim().getAccidentDate();
 							  System.out.println("Date of accident: " + dateOfAccident);
-							  String addressOfAccident = cusAcc.policies.get(i).getClaim().getAccidentAddress();
+							  String addressOfAccident = cusAcc.getPolicies().get(i).getClaim().getAccidentAddress();
 							  System.out.println("Address where accident happened: " + addressOfAccident);
-							  String descriptionOfAccident = cusAcc.policies.get(i).getClaim().getAccidentDescription();
+							  String descriptionOfAccident = cusAcc.getPolicies().get(i).getClaim().getAccidentDescription();
 							  System.out.println("Description of accident: " + descriptionOfAccident);
-							  String descriptionOfDamage = cusAcc.policies.get(i).getClaim().getDamageDescription();
+							  String descriptionOfDamage = cusAcc.getPolicies().get(i).getClaim().getDamageDescription();
 							  System.out.println("Description of damage to vehicle: " + descriptionOfDamage);
-							  double estCostOfRepairs = cusAcc.policies.get(i).getClaim().getCostOfRepairs();
+							  double estCostOfRepairs = cusAcc.getPolicies().get(i).getClaim().getCostOfRepairs();
 							  System.out.println("Estimated cost of repairs: " + String.format("$%.2f", estCostOfRepairs));
 							  System.out.println();
 						  }
 					  }
 				  }
 				  if(claimMatch == 0) {
-					  System.out.println("⚠CLAIM NOT FOUND. PLEASE TRY AGAIN.⚠");
-					  claimMatch = 0;
+					  System.out.println("********CLAIM NOT FOUND. PLEASE TRY AGAIN********");
 					  System.out.println();
+					  claimMatch = 0;
 				  }
 				break;
 				
@@ -465,20 +523,41 @@ public class PASApp {
 		sc.close();
 	}
 	
-	public static int validateNumber(String userInput) {
+	public static double validateNumber(String prompt) {
 		Scanner sc = new Scanner(System.in);
 		
 		 boolean isNumber;
 		  do {
 			  isNumber = false;
 			  try {
-				  System.out.print(userInput);
-				  int num = sc.nextInt();
-				  return num;
+				  System.out.print(prompt);
+				  if(prompt.contains("year")) {
+					  int year = sc.nextInt();
+					  if(year > 1900 && year < 9999) {
+						  return year;
+					  } else {
+						  System.out.println("********PLEASE ENTER A VALID YEAR********");
+						  validateNumber(prompt);
+					  }
+				  }
+				  else if(prompt.contains("many")) {
+					  int num = sc.nextInt();
+					  return num;
+				  } else if(prompt.contains("price") || prompt.contains("cost")) {
+					  double number = sc.nextDouble();
+					  return number;
+				  }
+				  
 			  } catch(Exception e) {
-				  System.out.println("********INVALID INPUT. PLEASE ENTER A NUMBER********");
-				  sc.next();
-				  isNumber = true;
+				  if(prompt.contains("year")) {
+					  System.out.println("********INVALID INPUT. PLEASE ENTER YEAR IN NUMBER********");
+					  sc.next();
+					  isNumber = true;
+				  } else {
+					  System.out.println("********INVALID INPUT. PLEASE ENTER NUMBERS ONLY********");
+					  sc.next();
+					  isNumber = true;
+				  }
 			  }
 		  } while(isNumber);
 		  sc.close();

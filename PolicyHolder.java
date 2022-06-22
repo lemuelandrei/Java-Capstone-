@@ -5,12 +5,12 @@ import java.time.LocalDate;
  *
  */
 public class PolicyHolder {
-	String firstName;
-	String lastName;
-	LocalDate birthDate;
-	String address;
-	String driversLicenseNo;
-	LocalDate driversLicenseFirstIssued;
+	private String firstName;
+	private String lastName;
+	private LocalDate birthDate;
+	private String address;
+	private String driversLicenseNo;
+	private LocalDate driversLicenseFirstIssued;
 	
 	public PolicyHolder(String firstName, String lastName, LocalDate birthDate, String address, String driversLicenseNo, LocalDate driversLicenseFirstIssued) {
 		this.firstName = firstName;

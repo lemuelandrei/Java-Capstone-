@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.Year;
 
 /**
@@ -6,18 +7,14 @@ import java.time.Year;
  *
  */
 public class RatingEngine {
-	double premium;
-	double vehPurchasePrice;
-	double vehPriceFactor;
-	int licenseNumOfYears;
+	private double premium;
+	private double vehPurchasePrice;
+	private double vehPriceFactor;
+	private int licenseNumOfYears;
 	
-	public RatingEngine() {
-		
-	}
-	
-	public RatingEngine(int year, double vehPurchasePrice, int licenseYearFirstIssued) {
+	public RatingEngine(int year, double vehPurchasePrice, LocalDate licenseDateIssued) {
 		setVehPriceFactor(year);
-		setLicenseNumOfYears(licenseYearFirstIssued);
+		setLicenseNumOfYears(licenseDateIssued);
 		setVehPurchasePrice(vehPurchasePrice);
 		calculatePremium();
 	}
@@ -46,10 +43,11 @@ public class RatingEngine {
 		return vehPriceFactor;
 	}
 	
-	public void setLicenseNumOfYears(int licenseYearFirstIssued) {
+	public void setLicenseNumOfYears(LocalDate licenseDateIssued) {
 		LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-		this.licenseNumOfYears = currentYear - licenseYearFirstIssued;
+		Period period = licenseDateIssued.until(currentDate);
+		int yearsBetween = period.getYears();
+		this.licenseNumOfYears = yearsBetween;
 	}
 	
 	public int getLicenseNumOfYears() {
@@ -67,13 +65,5 @@ public class RatingEngine {
 	public double getCalculatedPremium() {
 		return premium;
 	}
-	
-	public double getPolicyPremium() {
-		double totalPremium = 0;
-		totalPremium += premium;
-		return totalPremium;
-	}
-	
-	
 }
 

@@ -10,14 +10,14 @@ import java.util.Random;
  *
  */
 public class Claim {
-	int claimNo;
-	LocalDate accidentDate; 
-	String accidentAddress;
-	String accidentDescription;
-	String damageDescription;
+	private int claimNo;
+	private LocalDate accidentDate; 
+	private String accidentAddress;
+	private String accidentDescription;
+	private String damageDescription;
 	double costOfRepairs;
 	
-	public Claim(String accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
+	public Claim(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
 		setClaimNo();
 		setAccidentDate(accidentDate);
 		setAccidentAddress(accidentAddress);
@@ -37,9 +37,8 @@ public class Claim {
 		return claimNumber;
 	}
 	
-	public void setAccidentDate(String accidentDate) {
-		LocalDate dateOfAccident = LocalDate.parse(accidentDate);
-		this.accidentDate = dateOfAccident;
+	public void setAccidentDate(LocalDate accidentDate) {
+		this.accidentDate = accidentDate;
 	}
 	
 	public LocalDate getAccidentDate() {

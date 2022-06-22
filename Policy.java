@@ -12,7 +12,8 @@ public class Policy {
 	private LocalDate expirationDate;
 	private PolicyHolder policyHolder;
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
-	Claim claim;
+	private Claim claim;
+//	private ArrayList<Claim> claims = new ArrayList<>();
 	static double policyPremium = 0;
 	
 	public Policy(String effectiveDate) {
@@ -73,13 +74,21 @@ public class Policy {
 		return vehicles;
 	}
 	
-	public void setClaim(String accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
+	public void setClaim(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
 		claim = new Claim(accidentDate, accidentAddress, accidentDescription, damageDescription, costOfRepairs);
 	}
 	
 	public Claim getClaim() {
 		return claim;
 	}
+	
+//	public void addClaims(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
+//		claims.add(new Claim(accidentDate, damageDescription, damageDescription, damageDescription, costOfRepairs));
+//	}
+//	
+//	public ArrayList<Claim> getClaims() {
+//		return claims;
+//	}
 	
 	public static double getPolicyPremium() {
 		return policyPremium;

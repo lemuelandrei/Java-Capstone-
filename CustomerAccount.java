@@ -6,11 +6,11 @@ import java.util.Random;
  *
  */
 public class CustomerAccount {
-	ArrayList <Policy> policies = new ArrayList<>();
+	private ArrayList <Policy> policies = new ArrayList<>();
 	private int accountNo;
-	String firstName;
-	String lastName;
-	String address;
+	private String firstName;
+	private String lastName;
+	private String address;
 	
 	public CustomerAccount(String firstName, String lastName, String address) {
 		setAccNo();
