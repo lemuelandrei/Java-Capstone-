@@ -8,6 +8,7 @@ import java.time.Year;
  */
 public class RatingEngine {
 	private double premium;
+	private static double totalPremium;
 	private double vehPurchasePrice;
 	private double vehPriceFactor;
 	private int licenseNumOfYears;
@@ -60,6 +61,19 @@ public class RatingEngine {
 	
 	public void calculatePremium() {
 		this.premium = (this.vehPurchasePrice * this.vehPriceFactor) + ((this.vehPurchasePrice / 100) / this.licenseNumOfYears);
+		calcPremiumTotal(this.premium);
+	}
+	
+	public void resetPremiumTotal() {
+		totalPremium = 0;
+	}
+	
+	public double getPremiumTotal() {
+		return totalPremium;
+	}
+	
+	public void calcPremiumTotal(double premium) {
+		totalPremium += premium;
 	}
 	
 	public double getCalculatedPremium() {

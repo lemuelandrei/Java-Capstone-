@@ -12,46 +12,40 @@ public class Policy {
 	private LocalDate expirationDate;
 	private PolicyHolder policyHolder;
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
-	private Claim claim;
-//	private ArrayList<Claim> claims = new ArrayList<>();
-	static double policyPremium = 0;
+	private ArrayList<Claim> claims = new ArrayList<>();
+	private double totalPolicyPremium;
 	
-	public Policy(String effectiveDate) {
+	public Policy(LocalDate effectiveDate) {
 		setPolicyNo();
 		setEffectiveDate(effectiveDate);
 		setExpirationDate(effectiveDate);
 	}
 	
 	public void setPolicyNo() {
-		// It will generate 6 digit random Number.
-	    // from 0 to 999999
 	    Random rnd = new Random();
-	    int number = rnd.nextInt(999999);
+	    int number = rnd.nextInt(999999); // It will generate 6 digit random number from 0 to 999999
 	    this.policyNo = number;
 	}
 	
 	public String getPolicyNo() {
-		String policyNum = String.format("%06d", policyNo);
+		String policyNum = String.format("%06d", policyNo); //Includes zeroes at the beginning of policy number
 		return policyNum;
 	}
 	
-	public void setEffectiveDate(String effectiveDate) {
-		LocalDate startDate = LocalDate.parse(effectiveDate);
-		this.effectiveDate = startDate;
+	public void setEffectiveDate(LocalDate effectiveDate) {
+		this.effectiveDate = effectiveDate;
 	}
 	
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 	
-	public void setExpirationDate(String effectiveDate) {
-		LocalDate startDate = LocalDate.parse(effectiveDate);
-		this.expirationDate = startDate.plusMonths(6);
+	public void setExpirationDate(LocalDate effectiveDate) {
+		this.expirationDate = effectiveDate.plusMonths(6);
 	}
 	
-	public void setNewExpirationDate(String expirationDate) {
-		LocalDate newExpirationDate = LocalDate.parse(expirationDate);
-		this.expirationDate = newExpirationDate;
+	public void setNewExpirationDate(LocalDate expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 	
 	public LocalDate getExpirationDate() {
@@ -74,27 +68,20 @@ public class Policy {
 		return vehicles;
 	}
 	
-	public void setClaim(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
-		claim = new Claim(accidentDate, accidentAddress, accidentDescription, damageDescription, costOfRepairs);
+	public void addClaims(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
+		claims.add(new Claim(accidentDate, damageDescription, damageDescription, damageDescription, costOfRepairs));
 	}
 	
-	public Claim getClaim() {
-		return claim;
+	public ArrayList<Claim> getClaims() {
+		return claims;
 	}
 	
-//	public void addClaims(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
-//		claims.add(new Claim(accidentDate, damageDescription, damageDescription, damageDescription, costOfRepairs));
-//	}
-//	
-//	public ArrayList<Claim> getClaims() {
-//		return claims;
-//	}
-	
-	public static double getPolicyPremium() {
-		return policyPremium;
+	public void setPremiumTotal(double premiumTotal) {
+		this.totalPolicyPremium = premiumTotal; 
 	}
 	
-	public static void setPolicyPremium(double pOlicyPremium) {
-		policyPremium += pOlicyPremium;
+	public double getPremiumTotal() { 
+		return this.totalPolicyPremium;
 	}
+	
 }

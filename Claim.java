@@ -1,10 +1,5 @@
 import java.time.LocalDate;
 import java.util.Random;
-
-/**
- * 
- */
-
 /**
  * @author LemuelLimuco
  *
@@ -28,12 +23,12 @@ public class Claim {
 	
 	public void setClaimNo() {
 		Random rnd = new Random();
-		int number = rnd.nextInt(99999);
+		int number = rnd.nextInt(99999); //Generates a 5-digit random number from 0 to 99999.
 		this.claimNo = number;
 	}
 	
 	public String getClaimNo() {
-		String claimNumber = String.format("C%05d", claimNo);
+		String claimNumber = String.format("C%05d", claimNo); //formats claim number with C at the beginning plus the random generated number
 		return claimNumber;
 	}
 	

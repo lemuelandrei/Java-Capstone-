@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,14 +21,13 @@ public class CustomerAccount {
 	}
 	
 	private void setAccNo() {
-		// It will generate 4 digit random Number.
 	    Random rnd = new Random();
-	    int number = rnd.nextInt(9999);
+	    int number = rnd.nextInt(9999); //Generates a 4-digit random number.
 	    this.accountNo = number;
 	}
 	
 	public String getAccNo() {
-		String accNo = String.format("%04d", accountNo);
+		String accNo = String.format("%04d", accountNo); //Includes zeroes at the beginning of account number
 		return accNo;
 	}
 	
@@ -55,7 +55,7 @@ public class CustomerAccount {
 		return address;
 	}
 	
-	public void addPolicy(String effectiveDate) {
+	public void addPolicy(LocalDate effectiveDate) {
 		policies.add(new Policy(effectiveDate));
 	}
 	
