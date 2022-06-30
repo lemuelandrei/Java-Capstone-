@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.time.LocalDate;
-
 /**
  * @author LemuelLimuco
  *
@@ -69,7 +68,7 @@ public class Policy {
 	}
 	
 	public void addClaims(LocalDate accidentDate, String accidentAddress, String accidentDescription, String damageDescription, double costOfRepairs) {
-		claims.add(new Claim(accidentDate, damageDescription, damageDescription, damageDescription, costOfRepairs));
+		claims.add(new Claim(accidentDate, accidentAddress, accidentDescription, damageDescription, costOfRepairs));
 	}
 	
 	public ArrayList<Claim> getClaims() {

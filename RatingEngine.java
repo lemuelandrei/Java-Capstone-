@@ -17,7 +17,7 @@ public class RatingEngine {
 		setVehPriceFactor(year);
 		setLicenseNumOfYears(licenseDateIssued);
 		setVehPurchasePrice(vehPurchasePrice);
-		calculatePremium();
+		setPremium();
 	}
 	
 	public void setVehPriceFactor(int year) {
@@ -49,6 +49,9 @@ public class RatingEngine {
 		Period period = licenseDateIssued.until(currentDate);
 		int yearsBetween = period.getYears();
 		this.licenseNumOfYears = yearsBetween;
+		if(licenseNumOfYears < 1) {
+			this.licenseNumOfYears = 1;
+		}
 	}
 	
 	public int getLicenseNumOfYears() {
@@ -59,21 +62,21 @@ public class RatingEngine {
 		this.vehPurchasePrice = vehPurchasePrice;
 	}
 	
-	public void calculatePremium() {
+	public void setPremium() {
 		this.premium = (this.vehPurchasePrice * this.vehPriceFactor) + ((this.vehPurchasePrice / 100) / this.licenseNumOfYears);
-		calcPremiumTotal(this.premium);
-	}
-	
-	public void resetPremiumTotal() {
-		totalPremium = 0;
+		setPremiumTotal(this.premium);
 	}
 	
 	public double getPremiumTotal() {
 		return totalPremium;
 	}
 	
-	public void calcPremiumTotal(double premium) {
+	public void setPremiumTotal(double premium) {
 		totalPremium += premium;
+	}
+	
+	public void resetPremiumTotal() {
+		totalPremium = 0;
 	}
 	
 	public double getCalculatedPremium() {
